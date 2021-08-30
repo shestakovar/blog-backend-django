@@ -1,12 +1,15 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
 
 from .views import PostAPIView, CommentAPIView
 
-router = DefaultRouter()
+router = routers.DefaultRouter()
 router.register(r'posts', PostAPIView)
-router.register(r'comments', CommentAPIView)
+
+comments_router = routers.NestedSimpleRouter(router, r'posts', lookup='post')
+comments_router.register(r'comments', CommentAPIView)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('', include(comments_router.urls))
 ]

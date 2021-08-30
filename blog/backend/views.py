@@ -14,3 +14,6 @@ class PostAPIView(viewsets.ModelViewSet):
 class CommentAPIView(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        return Comment.objects.filter(origin=self.kwargs['post_pk'])
