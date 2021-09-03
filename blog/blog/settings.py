@@ -131,5 +131,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
-    'DATETIME_FORMAT': '%d.%m.%Y %H:%M'
+    'DATETIME_FORMAT': '%d.%m.%Y %H:%M',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
