@@ -11,6 +11,9 @@ class Post(models.Model):
     def __str__(self):
         return "%s %s" % (self.author, self.title)
 
+    class Meta:
+        ordering = ['-created']
+
 
 class Comment(models.Model):
     origin = models.ForeignKey(Post, on_delete=models.CASCADE)
