@@ -2,6 +2,10 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.exceptions import InvalidToken
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 
 class CookieTokenRefreshSerializer(TokenRefreshSerializer):
     refresh = None
@@ -34,3 +38,12 @@ class CookieTokenRefreshView(TokenRefreshView):
             del response.data['refresh']
         return super().finalize_response(request, response, *args, **kwargs)
     serializer_class = CookieTokenRefreshSerializer
+
+
+class Logout(APIView):
+    def post(self, request, format=None):
+        return Response({'detail': 'Logged out'}, status=status.HTTP_200_OK)
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response.delete_cookie('refresh_token')
+        return super().finalize_response(request, response, *args, **kwargs)
