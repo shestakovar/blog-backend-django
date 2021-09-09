@@ -20,3 +20,30 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
         read_only_fields = ('origin', )
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'first_name',
+                  'last_name', 'last_login', 'email', 'date_joined', )
+        read_only_fields = ('last_login', 'date_joined')
+
+    def create(self, validated_data):
+        pswd = validated_data.pop('password')
+        user = super().create(validated_data)
+        user.set_password(pswd)
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            pswd = validated_data.pop('password')
+
+        user = super().update(instance, validated_data)
+        if pswd:
+            user.set_password(pswd)
+        user.save()
+        return user

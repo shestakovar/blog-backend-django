@@ -1,11 +1,12 @@
 from django.urls import path, include
 from rest_framework_nested import routers
 
-from .views import PostAPIView, CommentAPIView
+from .views import PostAPIView, CommentAPIView, UserAPIView
 from .cookieToken import CookieTokenRefreshView, CookieTokenObtainPairView, Logout
 
 router = routers.DefaultRouter()
 router.register(r'posts', PostAPIView)
+router.register(r'users', UserAPIView)
 
 comments_router = routers.NestedSimpleRouter(router, r'posts', lookup='post')
 comments_router.register(r'comments', CommentAPIView)

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 
 from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from django.contrib.auth.models import User
+from .serializers import PostSerializer, CommentSerializer, UserSerializer
 from .permissions import IsOwnerOrReadOnly
 
 from rest_framework import viewsets
@@ -30,3 +31,8 @@ class CommentAPIView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user,
                         origin=Post.objects.get(pk=self.kwargs['post_pk']))
+
+
+class UserAPIView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
