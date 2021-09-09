@@ -5,6 +5,7 @@ from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class CookieTokenRefreshSerializer(TokenRefreshSerializer):
@@ -19,6 +20,13 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
                 'No valid token found in cookie \'refresh_token\'')
 
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data.update({'userid': self.user.id})
+        return data
+
+
 class CookieTokenObtainPairView(TokenObtainPairView):
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get('refresh'):
@@ -27,6 +35,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
                 'refresh_token', response.data['refresh'], max_age=cookie_max_age, httponly=True)
             del response.data['refresh']
         return super().finalize_response(request, response, *args, **kwargs)
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 class CookieTokenRefreshView(TokenRefreshView):
