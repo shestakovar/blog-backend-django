@@ -140,6 +140,7 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%d.%m.%Y %H:%M',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
