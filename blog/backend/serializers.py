@@ -6,6 +6,10 @@ from .models import Post, Comment
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
+    comment_count = serializers.IntegerField(
+        source='comment_set.count',
+        read_only=True
+    )
 
     class Meta:
         model = Post
