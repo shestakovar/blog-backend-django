@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from .models import Post, Comment
 from django.contrib.auth.models import User
 from .serializers import PostSerializer, CommentSerializer, UserSerializer
@@ -17,6 +15,13 @@ class PostAPIView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        querystring = self.request.query_params.get('author')
+        if (querystring):
+            queryset = queryset.author(querystring)
+        return queryset
 
 
 class CommentAPIView(viewsets.ModelViewSet):
