@@ -43,6 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
+        pswd = ''
         if 'password' in validated_data:
             pswd = validated_data.pop('password')
 

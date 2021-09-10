@@ -1,7 +1,7 @@
 from .models import Post, Comment
 from django.contrib.auth.models import User
 from .serializers import PostSerializer, CommentSerializer, UserSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsCurrentUserOrReadOnly
 
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -41,3 +41,5 @@ class CommentAPIView(viewsets.ModelViewSet):
 class UserAPIView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsCurrentUserOrReadOnly]
