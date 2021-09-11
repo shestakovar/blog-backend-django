@@ -41,5 +41,4 @@ class CommentAPIView(viewsets.ModelViewSet):
 class UserAPIView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                          IsCurrentUserOrReadOnly]
+    permission_classes = [IsCurrentUserOrReadOnly]
