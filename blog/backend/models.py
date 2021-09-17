@@ -14,7 +14,7 @@ class Post(models.Model):
         return "%s %s" % (self.author, self.title)
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['-id']
 
 
 class Comment(models.Model):
