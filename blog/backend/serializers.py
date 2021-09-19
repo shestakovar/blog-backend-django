@@ -20,6 +20,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
+    author_id = serializers.ReadOnlyField(source='author.id')
 
     class Meta:
         model = Comment
