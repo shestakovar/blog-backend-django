@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from django.utils.translation import gettext_lazy as _
+
 
 class CookieTokenRefreshSerializer(TokenRefreshSerializer):
     refresh = None
@@ -21,6 +23,10 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    default_error_messages = {
+        'no_active_account': _('Неверный логин или пароль')
+    }
+
     def validate(self, attrs):
         data = super().validate(attrs)
         data.update({'userid': self.user.id})
